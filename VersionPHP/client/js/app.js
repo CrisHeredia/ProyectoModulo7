@@ -1,34 +1,29 @@
-
-
-
 class EventsManager {
     constructor() {
         this.obtenerDataInicial()
     }
 
-
     obtenerDataInicial() {
-        let url = '../server/getEvents.php'
         $.ajax({
-          url: url,
-          dataType: "json",
+          url: '../server/getEvents.php',
+          dataType: 'json',
           cache: false,
           processData: false,
           contentType: false,
           type: 'GET',
-          success: (data) =>{
-            if (data.msg=="OK") {
-              this.poblarCalendario(data.eventos)
+          success: function(data){
+            if (data.msg == 'OK') {
+              alert("se conecto");
+              //this.poblarCalendario(data.eventos)
             }else {
-              alert(data.msg)
-              window.location.href = 'index.html';
+              alert(data.msg);
+              //window.location.href = 'index.html';
             }
           },
           error: function(){
-            alert("error en la comunicación con el servidor");
+            alert("error en la comunicación con el servidor en Inicio");
           }
         })
-
     }
 
     poblarCalendario(eventos) {
@@ -86,14 +81,14 @@ class EventsManager {
       }
       $.ajax({
         url: '../server/new_event.php',
-        dataType: "json",
+        dataType: 'text',
         cache: false,
         processData: false,
         contentType: false,
         data: form_data,
         type: 'POST',
-        success: (data) =>{
-          if (data.msg=="OK") {
+        success: function(data){
+          if (data.msg == 'OK') {
             alert('Se ha añadido el evento exitosamente')
             if (document.getElementById('allDay').checked) {
               $('.calendario').fullCalendar('renderEvent', {
@@ -109,23 +104,18 @@ class EventsManager {
                 end: $('#end_date').val()+" "+$('#end_hour').val()
               })
             }
-
-
-
-
           }else {
-            alert(data.msg)
+            alert(data.msg);
           }
         },
         error: function(){
-          alert("error en la comunicación con el servidor");
+          alert(data);
+          //alert("error en la comunicación con el servidor en anadir Evento");
         }
       })
-
     }
 
     eliminarEvento(event, jsEvent){
-
       var form_data = new FormData()
       form_data.append('id', event.id)
       $.ajax({
@@ -144,7 +134,7 @@ class EventsManager {
           }
         },
         error: function(){
-          alert("error en la comunicación con el servidor");
+          alert("error en la comunicación con el servidor en eliminar Evento");
         }
       })
       $('.delete-btn').find('img').attr('src', "img/trash.png");
@@ -189,7 +179,7 @@ class EventsManager {
             }
           },
           error: function(){
-            alert("error en la comunicación con el servidor");
+            alert("error en la comunicación con el servidor  en actualizar evento");
           }
         })
     }
