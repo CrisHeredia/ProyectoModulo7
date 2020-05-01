@@ -18,8 +18,6 @@ class Login {
     let form_data = new FormData();
     form_data.append('username', $('#user').val())
     form_data.append('password', $('#password').val())
-    //var user = $('form').find('#user').val();
-    //var password = $('form').find('#password').val();
     $.ajax({
       url: '../server/check_login.php',
       dataType: "json",
@@ -27,7 +25,6 @@ class Login {
       processData: false,
       contentType: false,
       data: form_data,
-      //data: {user:user, password:password},
       type: 'POST',
       success: function(php_response){
         if (php_response.msg == "OK") {

@@ -12,13 +12,12 @@ if (isset($usuario)){
       $end_date = $_POST['end_date'];
       $end_hour = $_POST['end_hour'];
       $start_hour = $_POST['start_hour'];
-      $sql="INSERT INTO eventos VALUES ("'"$titulo"','"$start_date"','"$end_date"','"$start_hour"','"$end_hour"','"$allday"','"$usuario)";
+      $sql="INSERT INTO eventos (Titulo,FInicio,FFin,HInicio,HFin,Duracion,FKUsuario) VALUES ('$titulo','$start_date','$end_date','$start_hour','$end_hour',$allday,$usuario)";
       if ($result = $conexion->query($sql)){
         $response['msg'] = "OK";
         $conexion->close();
       }else{
-        $response['msg'] = $sql;
-        //$response['msg'] = "Se presento un error en la inserción de datos";
+        $response['msg'] = "Se presento un error en la inserción de datos";
       }
     }
   }else{

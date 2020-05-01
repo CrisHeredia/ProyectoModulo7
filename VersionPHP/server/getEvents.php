@@ -10,6 +10,7 @@
       if($result = $conexion->query($sql)) {
         $i=0;
         while ($row = $result->fetch_assoc()){
+          $response['eventos'][$i]['id'] = $row['ID'];
           $response['eventos'][$i]['title'] = $row['Titulo'];
           $response['eventos'][$i]['start'] = $row['FInicio'].'T'.$row['HInicio'];
           $response['eventos'][$i]['allDay'] = $row['Duracion'];
