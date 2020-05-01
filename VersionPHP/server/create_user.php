@@ -6,7 +6,7 @@
     $password1 = password_hash('abc123', PASSWORD_DEFAULT);
     $password2 = password_hash('def456', PASSWORD_DEFAULT);
     $password3 = password_hash('ghi789', PASSWORD_DEFAULT);
-    $sql="INSERT INTO Usuarios VALUES (1,'p_rodriguez@hotmail.com','Patricia Rodriguez','$password1','1985-08-31'),
+    $sql="INSERT INTO usuarios VALUES (1,'p_rodriguez@hotmail.com','Patricia Rodriguez','$password1','1985-08-31'),
                                       (2,'m_aguilera@gmail.com','María Aguilera','$password2','1980-12-28'),
                                       (3,'jj_jaramillo@gmail.com','Juan José Jaramillo','$password3','1983-10-12')";
     if (mysqli_query($conexion,$sql)){

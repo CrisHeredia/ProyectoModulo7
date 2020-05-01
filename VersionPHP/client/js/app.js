@@ -4,19 +4,19 @@ class EventsManager {
     }
 
     obtenerDataInicial() {
+        let url = '../server/getEvents.php'
         $.ajax({
-          url: '../server/getEvents.php',
-          dataType: 'json',
+          url: url,
+          dataType: "json",
           cache: false,
           processData: false,
           contentType: false,
           type: 'GET',
-          success: function(data){
-            if (data.msg == 'OK') {
-              alert("se conecto");
-              //this.poblarCalendario(data.eventos)
+          success: (data) =>{
+            if (data.msg=="OK") {
+              this.poblarCalendario(data.eventos)
             }else {
-              alert(data.msg);
+              alert(data.msg)
               //window.location.href = 'index.html';
             }
           },
@@ -33,7 +33,7 @@ class EventsManager {
         		center: 'title',
         		right: 'month,agendaWeek,basicDay'
         	},
-        	defaultDate: '2016-11-01',
+        	defaultDate: '2020-04-01',
         	navLinks: true,
         	editable: true,
         	eventLimit: true,
@@ -81,13 +81,13 @@ class EventsManager {
       }
       $.ajax({
         url: '../server/new_event.php',
-        dataType: 'text',
+        dataType: 'json',
         cache: false,
         processData: false,
         contentType: false,
         data: form_data,
         type: 'POST',
-        success: function(data){
+        success: (data) =>{
           if (data.msg == 'OK') {
             alert('Se ha añadido el evento exitosamente')
             if (document.getElementById('allDay').checked) {
@@ -109,8 +109,7 @@ class EventsManager {
           }
         },
         error: function(){
-          alert(data);
-          //alert("error en la comunicación con el servidor en anadir Evento");
+          alert("error en la comunicación con el servidor en anadir Evento");
         }
       })
     }

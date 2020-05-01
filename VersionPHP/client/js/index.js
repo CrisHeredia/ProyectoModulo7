@@ -20,7 +20,6 @@ class Login {
     form_data.append('password', $('#password').val())
     //var user = $('form').find('#user').val();
     //var password = $('form').find('#password').val();
-    //document.cookie ='username='+user+'; expires=Thu, 2 Aug 2021 20:47:11 UTC; path=/';
     $.ajax({
       url: '../server/check_login.php',
       dataType: "json",
@@ -32,7 +31,6 @@ class Login {
       type: 'POST',
       success: function(php_response){
         if (php_response.msg == "OK") {
-          //$username =  $_COOKIE["varUsuario"];
           window.location.href = 'main.html';
         }else {
           alert(php_response.msg);
