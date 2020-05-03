@@ -33,7 +33,7 @@ class EventsManager {
         		center: 'title',
         		right: 'month,agendaWeek,basicDay'
         	},
-        	defaultDate: '2020-04-01',
+        	defaultDate: '2020-05-01',
         	navLinks: true,
         	editable: true,
         	eventLimit: true,
