@@ -1,22 +1,35 @@
 
 class EventManager {
     constructor() {
-        this.urlBase = "/events"
+        this.urlBase = "http://localhost:8082/app"
+        this.datosUsuario()
         this.obtenerDataInicial()
         this.inicializarFormulario()
         this.guardarEvento()
     }
 
+    datosUsuario(){
+      let url = this.urlBase + "/user";
+      var user = {usuario: localStorage.getItem("user")};
+      var sec = "";
+      $.post(url,user, (response) => {
+       sec =  response._id;
+      })
+      return sec;
+    }
+
     obtenerDataInicial() {
         let url = this.urlBase + "/all"
-        $.get(url, (response) => {
+        var user = {usuario: localStorage.getItem("user")};
+        $.post(url,user, (response) => {
             this.inicializarCalendario(response)
         })
     }
 
     eliminarEvento(evento) {
-        let eventId = evento.id
-        $.post('/events/delete/'+eventId, {id: eventId}, (response) => {
+        let url = this.urlBase + "/delete"
+        var user = {id: evento.id};
+        $.post(url,user,(response) => {
             alert(response)
         })
     }
@@ -27,7 +40,7 @@ class EventManager {
             let nombre = $('#titulo').val(),
             start = $('#start_date').val(),
             title = $('#titulo').val(),
-            end = '',
+            end = $('#start_date').val(),
             start_hour = '',
             end_hour = '';
 
@@ -39,12 +52,14 @@ class EventManager {
                 end = end + 'T' + end_hour
             }
             let url = this.urlBase + "/new"
+
             if (title != "" && start != "") {
                 let ev = {
                     title: title,
                     start: start,
-                    end: end
-                }
+                    end: end,
+                    userId: localStorage.getItem("user")
+                };
                 $.post(url, ev, (response) => {
                     alert(response)
                 })
@@ -80,14 +95,48 @@ class EventManager {
         })
     }
 
-    inicializarCalendario(eventos) {
+    actualizarEvento(evento) {
+        let id = evento.id;
+
+        var start_hour = evento.start._d.toString().substr(11,8);
+        var end_hour = evento.end._d.toString().substr(11,8);
+
+        let url = this.urlBase + "/update"
+        let ev = {
+            id: id,
+            start: evento.start._d,
+            end: evento.end._d,
+            startHour: start_hour,
+            endHour: end_hour
+        };
+        $.post(url, ev, (response) => {
+            alert(response)
+        })
+
+
+    }
+
+    inicializarCalendario(eventos){
+      var listEvents = [];
+      // noinspection JSAnnotator
+      if(eventos != 'undefined'){
+        eventos.forEach(item => {
+          var evento = {
+                    id: item._id,
+                    title  : item.title,
+                    start  : item.startDate,
+                    end    : item.endDate
+                    };
+            listEvents.push(evento);
+          })
+        }
         $('.calendario').fullCalendar({
             header: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'month,agendaWeek,basicDay'
             },
-            defaultDate: '2016-11-01',
+            defaultDate: new Date(),
             navLinks: true,
             editable: true,
             eventLimit: true,
@@ -97,7 +146,8 @@ class EventManager {
             eventDrop: (event) => {
                 this.actualizarEvento(event)
             },
-            events: eventos,
+
+            events: listEvents,
             eventDragStart: (event,jsEvent) => {
                 $('.delete').find('img').attr('src', "img/trash-open.png");
                 $('.delete').css('background-color', '#a70f19')
