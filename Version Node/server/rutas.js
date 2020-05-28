@@ -3,29 +3,6 @@ const User = require('./model/user.js');
 const EventCalendar = require('./model/event.js');
 var mongoose = require('mongoose');
 
-Router.get('/CreateEvent', function(req, res) {
-  User.findOne({Usuario:"usuario@gmail.com"},function (err, user){
-     if(user){
-       var evento = new EventCalendar({
-         _id: new mongoose.Types.ObjectId(),
-         title: "Prueba",
-         user: user.id,
-         startDate: new Date('2018-05-01'),
-         endDate: new Date('2018-05-01'),
-         startHour: "15",
-         endHour: "18"
-       });
-       evento.save(function(error) {
-           if (error) {
-               res.status(500)
-               res.json(error)
-           }
-           res.json(evento);
-       });
-     }
-   });
-
-});
 
 Router.post('/login', function(req, res) {
    var username = req.body.username
@@ -58,20 +35,6 @@ Router.post('/all', function(req, res) {
      });
 })
 
-// Obtener un usuario por su id
-Router.get('/', function(req, res) {
-  User.findOne({Usuario:"usuario@gmail.com"},function (err, user){
-     if(user){
-       EventCalendar.find({user: user.id}).exec(function(err, docs) {
-           if (err) {
-               res.status(500)
-               res.json(err)
-           }
-           res.json(docs)
-         });
-     }
-   });
-})
 
 Router.post('/new', function(req, res) {
       var userid = req.body.userId;
